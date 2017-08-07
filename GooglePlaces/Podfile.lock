@@ -1,0 +1,38 @@
+PODS:
+  - Alamofire (4.5.0)
+  - Argo (4.1.2):
+    - Runes (>= 4.0.0)
+  - Curry (3.0.0)
+  - Moya (8.0.5):
+    - Moya/Core (= 8.0.5)
+  - Moya/Core (8.0.5):
+    - Alamofire (~> 4.1)
+    - Result (~> 3.0)
+  - Realm (2.9.0):
+    - Realm/Headers (= 2.9.0)
+  - Realm/Headers (2.9.0)
+  - RealmSwift (2.9.0):
+    - Realm (= 2.9.0)
+  - Result (3.2.3)
+  - Runes (4.1.0)
+
+DEPENDENCIES:
+  - Alamofire (~> 4.5)
+  - Argo (~> 4.0)
+  - Curry
+  - Moya (~> 8.0)
+  - RealmSwift
+
+SPEC CHECKSUMS:
+  Alamofire: f28cdffd29de33a7bfa022cbd63ae95a27fae140
+  Argo: 5db06502fc1222d83011f574243089dab25202ff
+  Curry: eb3d2c75aec678b3cc7fb2729d2ad6dd121531d1
+  Moya: c37eec09a098ba9991b5a963b291fc5704bdb9ef
+  Realm: f14ab1673502559cb16592ddb8f383c474c13e05
+  RealmSwift: 16ad2c187042c4934f49750375582fe508627dcb
+  Result: 128640a6347e8d2ae48b142556739a2d13f90ce6
+  Runes: 72a67a5bbbe1b5fdae08b5a01b10c60d83fc69aa
+
+PODFILE CHECKSUM: 55fd9d8152a314477ee1b407bbb44146e65a969e
+
+COCOAPODS: 1.2.1
