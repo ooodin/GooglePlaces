@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import RealmSwift
 
 class CollectionViewController: UICollectionViewController {
     
@@ -15,9 +14,10 @@ class CollectionViewController: UICollectionViewController {
     
     var refresher: UIRefreshControl?
     let location = Location()
+    let dataSource = SourceDataManagerImp()
     
     var pageToken: String?
-    var places = List<PlaceModel>()
+    var places: [PlaceModel] = []
     
     //MARK: - LifeCycle
     
@@ -97,31 +97,12 @@ extension CollectionViewController: LocationDelegate {
         updateData()
     }
     
-    func addPlaces(_ newPlaces: [PlaceModel]) {
-    
-        do {
-            let realm = try Realm()
-            try realm.write {
-                realm.add(newPlaces, update: true)
-            }
-        } catch(let error) {
-            print("Error realm write operation: ", error.localizedDescription)
-        }
-        
-    }
-    
     func readPlacesAndUpdateUI(){
-        
-        print("REALM DATA BASE PATH: ", Realm.Configuration.defaultConfiguration.fileURL?.path ?? "")
-        
-        do {
-            let realm = try Realm()
-            places = List(realm.objects(PlaceModel.self))
-            self.collectionView?.reloadData()
-        } catch(let error) {
-            print("Error realm read operation: ", error.localizedDescription)
-        }
     
+        dataSource.readObjects(type: PlaceModel.self) { [weak self] places in
+            self?.places.append(contentsOf: places)
+            self?.collectionView?.reloadData()
+        }
     }
     
     func updateData() {
@@ -130,10 +111,10 @@ extension CollectionViewController: LocationDelegate {
             self.pageToken = nil
             Network.nextPage(pageToken: pageToken, completion: { [weak self] (places, token) in
                 
-                self?.places.append(objectsIn: places)
+                self?.places.append(contentsOf: places)
                 self?.collectionView?.reloadData()
                 
-                self?.addPlaces(places)
+                self?.dataSource.addObjects(places)
                 self?.pageToken = token
             })
             return
@@ -144,10 +125,10 @@ extension CollectionViewController: LocationDelegate {
             Network.firstPage(latitude: coordinates.latitude, longitude: coordinates.longitude) { [weak self] (places, token) in
                 self?.refresher?.endRefreshing()
                 
-                self?.places.append(objectsIn: places)
+                self?.places.append(contentsOf: places)
                 self?.collectionView?.reloadData()
                 
-                self?.addPlaces(places)
+                self?.dataSource.addObjects(places)
                 self?.pageToken = token
             }
         }
